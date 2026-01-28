@@ -8,8 +8,8 @@
     <style>
         body {
             background-color: lightblue;
-            height: 100%;
-            width: 100%;
+            /* height: 100%; */
+            /* width: 100%; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,11 +17,8 @@
         }
 
         h1 {
-            font-size: 70px;
-            height: 10%;
-            padding: 0;
-            margin: 0;
-            /* background-color: black; */
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            margin: 0.5em 0;
         }
 
         button {
@@ -54,14 +51,13 @@
 
         .mainDiv {
             height: 95vh;
-            width: 60vw;
+            width: 70vw;
             text-align: center;
             border: 1px solid black;
             box-shadow: 10px 6px 3px darkblue;
             box-sizing: border-box;
             background-color: lightcyan;
             border-radius: 10%;
-            /* opcje display */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -96,7 +92,7 @@
 
             if (!text || !key) {
 
-                alert('Wypełnij wszystkie pola!')
+                alert('Please fill every field!')
                 return null
             }
 
@@ -114,7 +110,7 @@
             key = key.toUpperCase().replace(/[^A-Z]/g, '');
 
             if (key.length === 0) {
-                alert('Klucz musi zawierać przynajmniej jedną literę!');
+                alert('Secret key is empty!');
                 return '';
             }
 
@@ -149,7 +145,7 @@
             key = key.toUpperCase().replace(/[^A-Z]/g, '');
 
             if (key.length === 0) {
-                alert('Klucz musi zawierać przynajmniej jedną literę!');
+                alert('Secret key is empty!');
                 return '';
             }
 
@@ -181,11 +177,11 @@
 
 <body>
     <div class="mainDiv">
-        <h1>Szyfr vigenere</h1>
-        <input type="text" class="secretKey" id="secretKey" placeholder="Podaj sekretny klucz"><br>
-        <textarea class="inputValue" id="inputValue" placeholder="Podaj tekst"></textarea><br>
-        <button class="encrypt" onclick="encrypt()">Zaszyfruj</button><br>
-        <button class="decrypt" onclick="decrypt()">Odszyfruj</button><br>
+        <h1>Vigenere cypher</h1>
+        <input type="text" class="secretKey" id="secretKey" placeholder="Secret key"><br>
+        <textarea class="inputValue" id="inputValue" placeholder="Text"></textarea><br>
+        <button class="encrypt" onclick="encrypt()">Encrypt</button><br>
+        <button class="decrypt" onclick="decrypt()">Decrypt</button><br>
         <div class="valueDiv" id="valueDiv"></div>
     </div>
 </body>
