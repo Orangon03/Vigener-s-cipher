@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szyfr vigenere</title>
+    <style>
+        body {
+            background-color: lightblue;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 70px;
+            height: 10%;
+            padding: 0;
+            margin: 0;
+            /* background-color: black; */
+        }
+
+        button {
+            width: 60%;
+            height: 7%;
+            border-radius: 40px;
+            font-size: 16px;
+        }
+
+        input {
+            width: 60%;
+            border-radius: 40px;
+            font-size: larger;
+            height: 5%;
+            border: 2px solid darkblue;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        textarea {
+            width: 60%;
+            border-radius: 40px;
+            font-size: larger;
+            height: 10%;
+            resize: vertical;
+            border: 2px solid darkblue;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .mainDiv {
+            height: 95vh;
+            width: 60vw;
+            text-align: center;
+            border: 1px solid black;
+            box-shadow: 10px 6px 3px darkblue;
+            box-sizing: border-box;
+            background-color: lightcyan;
+            border-radius: 10%;
+            /* opcje display */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .encrypt {
+            background-color: red;
+            box-shadow: 10px 6px 3px lightcoral;
+        }
+
+        .decrypt {
+            background-color: greenyellow;
+            box-shadow: 10px 6px 3px lightgreen;
+        }
+
+        .valueDiv {
+            height: 50%;
+            width: 90%;
+            border: 2px solid blue;
+            border-radius: 40px;
+            overflow-y: scroll;
+            overflow: hidden;
+        }
+    </style>
+    <script>
+
+        const getValues = () => {
+            const text = document.getElementById('inputValue').value
+            const key = document.getElementById('secretKey').value
+
+            if (!text || !key) {
+
+                alert('Wypełnij wszystkie pola!')
+                return null
+            }
+
+            return {
+                text: text,
+                key: key
+            }
+        }
+
+        const encrypt = () => {
+            let { text, key } = getValues()
+
+            let result = '';
+            let keyIndex = 0;
+            key = key.toUpperCase().replace(/[^A-Z]/g, '');
+
+            if (key.length === 0) {
+                alert('Klucz musi zawierać przynajmniej jedną literę!');
+                return '';
+            }
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+
+                if (char.match(/[a-z]/i)) {
+                    let isUpper = char === char.toUpperCase();
+                    char = char.toUpperCase();
+
+                    let charCode = char.charCodeAt(0) - 65;
+                    let keyChar = key[keyIndex % key.length];
+                    let keyCode = keyChar.charCodeAt(0) - 65;
+
+                    let encryptedCode = (charCode + keyCode) % 26;
+                    let encryptedChar = String.fromCharCode(encryptedCode + 65);
+
+                    result += isUpper ? encryptedChar : encryptedChar.toLowerCase();
+                    keyIndex++;
+                } else {
+                    result += char;
+                }
+            }
+            document.getElementById('valueDiv').innerText = result
+        }
+
+        const decrypt = () => {
+            let { text, key } = getValues()
+
+            let result = '';
+            let keyIndex = 0;
+            key = key.toUpperCase().replace(/[^A-Z]/g, '');
+
+            if (key.length === 0) {
+                alert('Klucz musi zawierać przynajmniej jedną literę!');
+                return '';
+            }
+
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+
+                if (char.match(/[a-z]/i)) {
+                    let isUpper = char === char.toUpperCase();
+                    char = char.toUpperCase();
+
+                    let charCode = char.charCodeAt(0) - 65;
+                    let keyChar = key[keyIndex % key.length];
+                    let keyCode = keyChar.charCodeAt(0) - 65;
+
+                    let decryptedCode = (charCode - keyCode + 26) % 26;
+                    let decryptedChar = String.fromCharCode(decryptedCode + 65);
+
+                    result += isUpper ? decryptedChar : decryptedChar.toLowerCase();
+                    keyIndex++;
+                } else {
+                    result += char;
+                }
+            }
+            document.getElementById('valueDiv').innerText = result
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="mainDiv">
+        <h1>Szyfr vigenere</h1>
+        <input type="text" class="secretKey" id="secretKey" placeholder="Podaj sekretny klucz"><br>
+        <textarea class="inputValue" id="inputValue" placeholder="Podaj tekst"></textarea><br>
+        <button class="encrypt" onclick="encrypt()">Zaszyfruj</button><br>
+        <button class="decrypt" onclick="decrypt()">Odszyfruj</button><br>
+        <div class="valueDiv" id="valueDiv"></div>
+    </div>
+</body>
+
+</html>
